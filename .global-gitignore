@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+.Spotlight-V100
+.Trashes
+thumbs.db
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+*.code-workspace
+*.sublime-workspace
+
+# Node
+npm-debug.log
+
+# General
+log/
+*.log
+.env.local
+.env.*.local
+*.swp
+*.un~

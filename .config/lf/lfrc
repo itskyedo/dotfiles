@@ -1,0 +1,118 @@
+##
+# OPTIONS
+##
+
+set shell sh
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set cursorpreviewfmt "\033[7;2m"
+set sortby natural
+set hidden true
+set ignorecase true
+set icons true
+set drawbox true
+set sixel true
+set previewer ~/.config/lf/previewer
+set cleaner ~/.config/lf/cleaner
+
+##
+# MAPPINGS
+##
+
+map m
+map o
+map n
+map "'"
+map '"'
+map d
+
+map <enter> shell
+map ` !true
+map . set hidden!
+map dd trash
+map p paste
+map x cut
+map y copy
+map <enter> open
+map R reload
+map mf mkfile
+map md mkdir
+maap C clear
+
+##
+# SETUP
+##
+
+on-cd
+%mkdir -p ~/.trash
+
+
+##
+# COMMANDS
+##
+
+# Report current path to terminal
+cmd on-cd &printf '\033]7;%s\033\\' "$PWD" > /dev/tty
+cmd on-quit &printf '\033]7;\033\\' > /dev/tty
+on-cd
+
+# Dynamic set the number of columns
+cmd on-redraw %{{
+    if [ "$lf_width" -le 80 ]; then
+        lf -remote "send $id set ratios 1:2"
+    elif [ "$lf_width" -le 160 ]; then
+        lf -remote "send $id set ratios 1:2:3"
+    else
+        lf -remote "send $id set ratios 1:2:3:5"
+    fi
+}}
+
+cmd open &{{
+    case $(file --mime-type -Lb $f) in
+        text/*) lf -remote "send $id \$$EDITOR \$fx";;
+        *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd mkdir ${{
+  printf "Directory name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile ${{
+  printf "File name: "
+  read ans
+  mkfile $ans
+}}
+
+cmd trash %set -f; mv $fx ~/.trash
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}

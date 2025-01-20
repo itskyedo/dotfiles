@@ -1,0 +1,32 @@
+#!/bin/sh
+case "$(file -Lb --mime-type -- "$1")" in
+  application/pdf)
+    pdftotext "$1" -
+    ;;
+  image/*)
+    chafa -f sixel -s "$2x$3" --animate off --polite on "$1"
+    exit 1
+    ;;
+  application/x-7z-compressed)
+    7z l "$1"
+    ;;
+  application/x-tar)
+    tar -tvf "$1"
+    ;;
+  application/x-compressed-tar|application/x-*-compressed-tar)
+    tar -tvf "$1"
+    ;;
+  application/vnd.rar|application/x-rar-compressed)
+    unrar l "$1"
+    ;;
+  application/zip|application/x-zip-compressed|multipart/x-zip)
+    unzip -l "$1"
+      ;;
+  text/*|application/json)
+    # cat "$1"
+    # return false to always repaint, in case terminal size changes
+    bat \
+      --force-colorization --paging=never --style=changes,numbers \
+      --terminal-width $(($2 - 3)) "$1" && false
+    ;;
+esac
