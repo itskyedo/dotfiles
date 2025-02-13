@@ -374,6 +374,7 @@ lazy.setup({
       { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' },
       { "nvim-telescope/telescope-file-browser.nvim" },
       { "debugloop/telescope-undo.nvim" },
+      { "smartpde/telescope-recent-files" },
     },
     config = function()
       require('telescope').setup({
@@ -419,6 +420,9 @@ lazy.setup({
             respect_gitignore = false,
           },
           undo = {},
+          recent_files = {
+            only_cwd = true,
+          }
         },
         pickers = {
           oldfiles = {
@@ -429,7 +433,8 @@ lazy.setup({
 
       require('telescope').load_extension('fzf')
 
-      vim.keymap.set('n', '<leader>fo', '<cmd>Telescope oldfiles<cr>', { desc = "Show recent files" })
+      vim.keymap.set('n', '<leader>fo', '<cmd>lua require("telescope").extensions.recent_files.pick()<cr>',
+        { desc = "Show recent files" })
       vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { desc = "Show buffers" })
       vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = "Find files" })
       vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { desc = "Live grep" })
