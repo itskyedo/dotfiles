@@ -357,6 +357,7 @@ lazy.setup({
           'lua',
           'vim',
           'vimdoc',
+          "html",
           'css',
           'json',
           'rust'
@@ -864,6 +865,10 @@ lspconfig.ts_ls.setup({
 })
 
 lspconfig.eslint.setup({
+  capabilities = default_capabilities,
+})
+
+lspconfig.html.setup({
   capabilities = default_capabilities,
 })
 
