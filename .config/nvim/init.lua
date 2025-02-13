@@ -133,13 +133,6 @@ vim.api.nvim_create_autocmd('FileType', {
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
 })
 
-vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
-  group = user_cmds,
-  desc = 'Restore cursor position',
-  pattern = '*',
-  command = 'silent! normal! g`"zv',
-})
-
 -- ╔════════════════════════════════════════════════════════════════════════════════════╗
 -- ║                                      PLUGINS                                       ║
 -- ╚════════════════════════════════════════════════════════════════════════════════════╝
