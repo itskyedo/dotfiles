@@ -30,6 +30,7 @@ brew "pnpm"
 brew "poppler"
 brew "postgresql@16", restart_service: :changed
 brew "powerlevel10k"
+brew "pyenv"
 brew "ripgrep"
 brew "shfmt"
 brew "the_silver_searcher"
