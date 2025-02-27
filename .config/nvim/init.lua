@@ -477,6 +477,15 @@ lazy.setup({
   },
 
   {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end
+  },
+
+  {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require('colorizer').setup({
