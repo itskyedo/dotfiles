@@ -822,6 +822,7 @@ require('mason-lspconfig').setup({
     'cssls',
     'rust_analyzer',
     'sqlls',
+    'pyright',
   },
 });
 
@@ -967,6 +968,11 @@ lspconfig.sqlls.setup({
   root_dir = function(_)
     return vim.loop.cwd()
   end,
+})
+
+
+lspconfig.pyright.setup({
+  capabilities = default_capabilities,
 })
 
 -- ╔════════════════════════════════════════════════════════════════════════════════════╗
