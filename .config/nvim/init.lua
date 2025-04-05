@@ -10,6 +10,7 @@ vim.opt.hidden = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,globals,tabpages,winsize,terminal"
 vim.opt.mouse = 'a'
+vim.opt.laststatus = 3
 
 vim.opt.number = true
 vim.opt.relativenumber = true
