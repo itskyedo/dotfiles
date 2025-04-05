@@ -16,6 +16,7 @@ vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = 'yes'
 vim.opt.showtabline = 2
+vim.opt.laststatus = 3
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -784,7 +785,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, lhs, rhs, vim.tbl_extend('force', default_opts, opts));
     end
 
-    set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', { desc = 'Show symbol information' })
+    set_keymap('n', 'K', "<cmd>lua vim.lsp.buf.hover({ border = 'single' })<cr>", { desc = 'Show symbol information' })
     set_keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<cr>', { desc = 'Go to symbol definition' })
     set_keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', { desc = 'Go to symbol declaration' })
     set_keymap('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', { desc = 'Go to symbol implementation' })
