@@ -487,15 +487,6 @@ lazy.setup({
   },
 
   {
-    'norcalli/nvim-colorizer.lua',
-    config = function()
-      require('colorizer').setup({
-        '*',
-      })
-    end,
-  },
-
-  {
     "christoomey/vim-tmux-navigator",
     event = "VeryLazy",
     cmd = {
