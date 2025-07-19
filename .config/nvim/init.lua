@@ -59,6 +59,10 @@ vim.keymap.set('v', '<S-Up>', '<Up>', { desc = "Move cursor up" });
 vim.keymap.set('v', '<S-Right>', '<Right>', { desc = "Move cursor right" });
 vim.keymap.set('v', '<S-Down>', '<Down>', { desc = "Move cursor down" });
 vim.keymap.set('v', '<S-Left>', '<Left>', { desc = "Move cursor left" });
+vim.keymap.set('i', '<C-k>', '<Up>', { desc = "Move cursor up" });
+vim.keymap.set('i', '<C-l>', '<Right>', { desc = "Move cursor right" });
+vim.keymap.set('i', '<C-j>', '<Down>', { desc = "Move cursor down" });
+vim.keymap.set('i', '<C-h>', '<Left>', { desc = "Move cursor left" });
 
 -- ╔════════════════════════════════════════════════════════════════════════════════════╗
 -- ║                                   USER COMMANDS                                    ║
