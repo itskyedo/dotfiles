@@ -728,9 +728,9 @@ lazy.setup({
           vue = { "biome", "prettier" },
           json = { "biome", "prettier" },
           jsonc = { "biome", "prettier" },
-          css = { "biome", "prettier" },
-          scss = { "biome", "prettier" },
-          sass = { "biome", "prettier" },
+          css = { "biome", "stylelint", "prettier" },
+          scss = { "biome", "stylelint", "prettier" },
+          sass = { "biome", "stylelint", "prettier" },
           html = { "biome", "prettier" },
           graphql = { "biome", "prettier" },
         },
@@ -743,6 +743,9 @@ lazy.setup({
             require_cwd = false,
           },
           prettier = {
+            require_cwd = true,
+          },
+          stylelint = {
             require_cwd = true,
           },
           biome = {
@@ -833,6 +836,7 @@ require('mason-lspconfig').setup({
     'biome',
     'html',
     'cssls',
+    'stylelint_lsp',
     'rust_analyzer',
     'sqlls',
     'pyright',
@@ -897,6 +901,10 @@ lspconfig.html.setup({
 
 lspconfig.cssls.setup({
   capabilities = default_capabilities,
+})
+
+lspconfig.stylelint_lsp.setup({
+  capabilities = default_capabilities
 })
 
 lspconfig.biome.setup({
