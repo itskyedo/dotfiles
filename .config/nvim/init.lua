@@ -69,6 +69,13 @@ vim.keymap.set('i', '<C-h>', '<Left>', { desc = "Move cursor left" });
 -- ╚════════════════════════════════════════════════════════════════════════════════════╝
 
 -- ╔══════════════════════════════════════╗
+-- ║               FUNCTIONS              ║
+-- ╚══════════════════════════════════════╝
+
+local function is_lsp_attached(name, bufnr)
+  return #vim.lsp.get_clients({ bufnr, name }) > 0;
+end
+-- ╔══════════════════════════════════════╗
 -- ║               COMMANDS               ║
 -- ╚══════════════════════════════════════╝
 
@@ -704,35 +711,55 @@ lazy.setup({
     'stevearc/conform.nvim',
     opts = {},
     config = function()
+      local js = function(bufnr)
+        if require("conform").get_formatter_info("biome", bufnr).available then
+          return { "biome", lsp_format = "first" }
+        elseif is_lsp_attached("eslint", bufnr) then
+          return { "prettier", lsp_format = "first" }
+        else
+          return { "prettier", lsp_format = "first" }
+        end
+      end;
+
+      local css = function(bufnr)
+        if require("conform").get_formatter_info("biome", bufnr).available then
+          return { "biome", lsp_format = "first" }
+        elseif require("conform").get_formatter_info("stylelint", bufnr).available then
+          return { "prettier", "stylelint", lsp_format = "first" }
+        else
+          return { "prettier", lsp_format = "first" }
+        end
+      end;
+
       require("conform").setup({
         default_format_opts = {
           lsp_format = "fallback",
-          stop_after_first = true,
+          stop_after_first = false,
         },
 
         format_on_save = {
           timeout_ms = 500,
-          lsp_fallback = true,
         },
+
         formatters_by_ft = {
           lua = { "stylua" },
           rust = { "rustfmt" },
-          typescript = { "biome", "prettier" },
-          typescriptreact = { "biome", "prettier" },
-          ["typescript.jsx"] = { "biome", "prettier" },
-          javascript = { "biome", "prettier" },
-          javascriptreact = { "biome", "prettier" },
-          ["javascript.jsx"] = { "biome", "prettier" },
-          astro = { "biome", "prettier" },
-          svelte = { "biome", "prettier" },
-          vue = { "biome", "prettier" },
-          json = { "biome", "prettier" },
-          jsonc = { "biome", "prettier" },
-          css = { "biome", "stylelint", "prettier" },
-          scss = { "biome", "stylelint", "prettier" },
-          sass = { "biome", "stylelint", "prettier" },
-          html = { "biome", "prettier" },
-          graphql = { "biome", "prettier" },
+          typescript = js,
+          typescriptreact = js,
+          ["typescript.jsx"] = js,
+          javascript = js,
+          javascriptreact = js,
+          ["javascript.jsx"] = js,
+          astro = js,
+          svelte = js,
+          vue = js,
+          json = js,
+          jsonc = js,
+          css = css,
+          scss = css,
+          sass = css,
+          html = js,
+          graphql = js,
         },
 
         formatters = {
@@ -811,7 +838,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = 'Rename symbol' })
     set_keymap('n', '<leader>fm', function()
       require("conform").format({
-        lsp_fallback = true,
         async = true,
       })
     end, { desc = 'Format buffer' })
