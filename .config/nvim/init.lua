@@ -707,11 +707,47 @@ lazy.setup({
       require("conform").setup({
         default_format_opts = {
           lsp_format = "fallback",
+          stop_after_first = true,
         },
 
         format_on_save = {
           timeout_ms = 500,
           lsp_fallback = true,
+        },
+        formatters_by_ft = {
+          lua = { "stylua" },
+          rust = { "rustfmt" },
+          typescript = { "biome", "prettier" },
+          typescriptreact = { "biome", "prettier" },
+          ["typescript.jsx"] = { "biome", "prettier" },
+          javascript = { "biome", "prettier" },
+          javascriptreact = { "biome", "prettier" },
+          ["javascript.jsx"] = { "biome", "prettier" },
+          astro = { "biome", "prettier" },
+          svelte = { "biome", "prettier" },
+          vue = { "biome", "prettier" },
+          json = { "biome", "prettier" },
+          jsonc = { "biome", "prettier" },
+          css = { "biome", "prettier" },
+          scss = { "biome", "prettier" },
+          sass = { "biome", "prettier" },
+          html = { "biome", "prettier" },
+          graphql = { "biome", "prettier" },
+        },
+
+        formatters = {
+          stylua = {
+            require_cwd = true,
+          },
+          rustfmt = {
+            require_cwd = false,
+          },
+          prettier = {
+            require_cwd = true,
+          },
+          biome = {
+            require_cwd = true,
+          },
         },
       })
     end,
@@ -861,65 +897,10 @@ lspconfig.html.setup({
 
 lspconfig.cssls.setup({
   capabilities = default_capabilities,
-  on_attach = function()
-    local conform = require("conform")
-
-    conform.formatters.biome = {
-      prepend_args = {
-        'check',
-        '--unsafe',
-        '--write',
-      },
-    }
-
-    local filetypes_to_set = {
-      "css",
-      "scss",
-      "sass",
-    }
-
-    for _, ft in ipairs(filetypes_to_set) do
-      conform.formatters_by_ft[ft] = { "prettier" }
-    end
-  end,
 })
 
 lspconfig.biome.setup({
   capabilities = default_capabilities,
-  on_attach = function()
-    local conform = require("conform")
-
-    conform.formatters.biome = {
-      prepend_args = {
-        'check',
-        '--unsafe',
-        '--write',
-      },
-    }
-
-    local filetypes_to_set = {
-      "typescript",
-      "typescriptreact",
-      "typescript.jsx",
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "astro",
-      "svelte",
-      "vue",
-      "json",
-      "jsonc",
-      "css",
-      "scss",
-      "sass",
-      "html",
-      "graphql",
-    }
-
-    for _, ft in ipairs(filetypes_to_set) do
-      conform.formatters_by_ft[ft] = { "biome" }
-    end
-  end,
 })
 
 lspconfig.rust_analyzer.setup({
